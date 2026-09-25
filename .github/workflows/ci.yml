@@ -9,21 +9,32 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
+      # Install pnpm FIRST
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      # Then setup Node
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+
+      # Install dependencies
       - name: Install
         run: pnpm install --frozen-lockfile
-      - name: Build (client)
+
+      # Build frontend
+      - name: Build
         working-directory: client
         run: pnpm build
-      - name: Run tests
-        run: pnpm -w test || pnpm test || true
+
+      # Run tests
+      - name: Test
+        run: pnpm test || true
