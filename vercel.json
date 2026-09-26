@@ -1,4 +1,4 @@
 {
-  "buildCommand": "pnpm build",
+  "buildCommand": "cd client && pnpm build",
   "outputDirectory": "dist/public"
 }
